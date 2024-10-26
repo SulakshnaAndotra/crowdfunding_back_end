@@ -16,18 +16,18 @@ class CustomUserList(APIView):
         serializer = CustomUserSerializer(users, many=True)
         return Response(serializer.data)
 
-def post(self, request):
-    serializer = CustomUserSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
+    def post(self, request):
+        serializer = CustomUserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
         return Response(
-            serializer.data,
-            status=status.HTTP_201_CREATED
+            serializer.errors, 
+            status=status.HTTP_400_BAD_REQUEST
         )
-    return Response(
-        serializer.errors, 
-        status=status.HTTP_400_BAD_REQUEST
-    )
 
 class CustomUserDetail(APIView):
     def get_object(self, pk):
@@ -43,17 +43,17 @@ class CustomUserDetail(APIView):
     
 
 class CustomAuthToken(ObtainAuthToken):
-  def post(self, request, *args, **kwargs):
-      serializer = self.serializer_class(
-          data=request.data,
-          context={'request': request}
-      )
-      serializer.is_valid(raise_exception=True)
-      user = serializer.validated_data['user']
-      token, created = Token.objects.get_or_create(user=user)
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(
+            data=request.data,
+            context={'request': request}
+        )
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
 
-      return Response({
-          'token': token.key,
-          'user_id': user.id,
-          'email': user.email
-      })
+        return Response({
+            'token': token.key,
+            'user_id': user.id,
+            'email': user.email
+        })
