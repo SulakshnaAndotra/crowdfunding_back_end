@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('projects.urls')),
     path('', include('users.urls')),
     path('api-token-auth/', CustomAuthToken.as_view(), name='api_token_auth'),
+   
 ]
 
 
