@@ -78,3 +78,77 @@ URL	HTTP Method	Purpose	Request Body	Success Response Code	Authentication/Author
 
 An example API spec:  
 ![](.C:\Users\harde\shecodes\crowdfunding_back_end\ERD Image\API table.docx)
+Link to deploy project
+ https://cradleconnect-189205a4b856.herokuapp.com
+
+![Post request for create user](<django project 1-1.JPG>)
+![Post request for token](<project 2.JPG>)
+![Post request for create project](project3.JPG)
+![Get request to get project](project4.JPG)
+
+Instructions
+Prepare the Request:
+prepare a POST request.
+
+Set the URL:
+Enter the URL for the endpoint: https://cradleconnect-189205a4b856.herokuapp.com/users/
+
+Set the Headers:
+Include the Content-Type header set to application/json.
+Request Body
+{
+    "username": "username_here",
+  "password": "your_password_here",
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "john.doe@example.com"
+}
+
+Send the Request:
+Include the request body as shown above.
+
+Handle the Response:
+If successful, you should receive a 201 Created response with details of the new user.
+
+Creating a project
+
+Firstly, we need to get a token for the created user by setting a post request to get token. 
+ Entre the URL https://cradleconnect-189205a4b856.herokuapp.com/api-token-auth/
+ in the body with JYSON sellted. entre the same as above 
+ {
+    "username": "username_here",
+  "password": "your_password_here",
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "john.doe@example.com"
+} 
+get the token.
+
+
+Prepare the Request for project:
+
+prepare a POST request.
+Set the URL:
+
+Enter the URL for the endpoint: https://cradleconnect-189205a4b856.herokuapp.com/projects/
+
+Set the Headers:
+Include the Content-Type header set to application/json.
+
+request body:
+{
+	"title": "Project one",
+	"description": "The first project.",
+	"goal": 150,
+	"image": "https://via.placeholder.com/300.jpg",
+	"is_open": true
+}
+
+Optionally, include an Authorization header if authentication is required.
+Put the copied token in the auth. 
+Send the Request:
+Include the request body as shown above, making sure to replace the owner field with the actual user_id of the user who is creating the project.
+
+Handle the Response:
+If successful, you should receive a 201 Created response with the details of the new project.
+
